@@ -22,7 +22,7 @@ pipeline {
                 script {
                     withCredentials([usernamePassword(credentialsId: 'DOCKER', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh 'docker login -u $USERNAME -p $PASSWORD'
-                        sh 'docker.image("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}").push()'
+                        sh 'docker push image("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}")'
                     }
                 }
             }
