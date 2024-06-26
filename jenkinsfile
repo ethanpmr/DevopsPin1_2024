@@ -14,16 +14,7 @@ pipeline {
                 }
             }
         }
-        stage('Push') {
-            steps {
-                script {
-                    withCredentials([usernamePassword(credentialsId: 'DOCKER', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
-                        sh 'docker login -u $USERNAME -p $PASSWORD'
-                        docker.image("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}").push()
-                    }
-                }
-            }
-        }
+
         stage("Test") {
             steps {
                 script {
@@ -34,6 +25,17 @@ pipeline {
             }
         }
     }
+        stage('Push') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: 'DOCKER', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh 'docker login -u $USERNAME -p $PASSWORD'
+                        docker.image("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}").push()
+                    }
+                }
+            }
+        }
+        
     post {
         always {
             // Limpiar las imágenes de Docker para liberar espacio
