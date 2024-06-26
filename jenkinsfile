@@ -27,7 +27,7 @@ pipeline {
         stage("Test") {
             steps {
                 script {
-                    docker.image("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}").inside("-u root") {
+                    docker.image("${env.DOCKER_IMAGE_NAME}").inside("-u root") {
                         sh "node -v"
                     }
                 }
