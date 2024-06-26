@@ -44,6 +44,7 @@ pipeline {
             // Limpiar las imágenes de Docker para liberar espacio
                 script {
                 docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").remove()
+                }
             }
         }
     }
