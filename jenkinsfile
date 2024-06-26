@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        // DOCKERHUB_CREDENTIALS = credentials('USER_DOCKER') // ID de las credenciales almacenadas en Jenkins
+        DOCKERHUB_CREDENTIALS = credentials('DOCKER') // ID de las credenciales almacenadas en Jenkins
         DOCKER_IMAGE_NAME = 'egalera/myapp'
         DOCKER_IMAGE_TAG = 'latest'
     }
@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     // Iniciar sesión en DockerHub
-                    docker.withRegistry('', "${USER_DOCKER}") {
+                    docker.withRegistry('', "${DOCKERHUB_CREDENTIALS}") {
                         // Subir la imagen a DockerHub
                         docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").push()
                     }
