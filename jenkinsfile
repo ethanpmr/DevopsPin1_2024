@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    environment {
+        DOCKERHUB_CREDENTIALS = credentials('USER_DOCKER') // ID de las credenciales almacenadas en Jenkins
+        DOCKER_IMAGE_NAME = 'egalera/myApp'
+        DOCKER_IMAGE_TAG = 'latest'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    // Construir la imagen Docker
+                    docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
+                }
+            }
+        }
+        
+        stage('Push') {
+            steps {
+                script {
+                    // Iniciar sesión en DockerHub
+                    docker.withRegistry('https://index.docker.io/v1/', DOCKERHUB_CREDENTIALS) {
+                        // Subir la imagen a DockerHub
+                        docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").push()
+                    }
+                }
+            }
+        }
+    }
+
+    // post {
+    //     always {
+    //         // Limpiar las imágenes de Docker para liberar espacio
+    //         script {
+    //             docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").remove()
+    //         }
+    //     }
+    // }
+}
