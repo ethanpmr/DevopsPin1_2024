@@ -21,9 +21,9 @@ pipeline {
             steps {
                 script {
                     // Iniciar sesión en DockerHub
-                    docker.withRegistry('', "${DOCKERHUB_CREDENTIALS}") {
+                    docker.withRegistry('', "${env.DOCKERHUB_CREDENTIALS}") {
                         // Subir la imagen a DockerHub
-                        docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").push()
+                        docker.image("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}").push()
                     }
                 }
             }
