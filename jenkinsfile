@@ -33,7 +33,7 @@ pipeline {
             steps {
                 script {
                     docker.image(("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}")).inside("-u root"){
-                    sh "node:18 -v"
+                    sh "node -v"
                 }
             }
         }
