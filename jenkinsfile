@@ -31,7 +31,7 @@ pipeline {
         stage("Remove") {
             steps {
                 script {
-                docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").remove()
+                    docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").remove()
                 }
             }
         }
