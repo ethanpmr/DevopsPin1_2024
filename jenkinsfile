@@ -20,10 +20,9 @@ pipeline {
         stage('Push') {
             steps {
                 script {
-                    // Iniciar sesión en DockerHub
-                    docker.withRegistry('https://hub.docker.com/', withCredentials([usernamePassword(credentialsId: 'DOCKER')])) {
-                        // Subir la imagen a DockerHub
-                        docker.image("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}").push()
+                    withCredentials([usernamePassword(credentialsId: 'DOCKERHUB_CREDENTIALS', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                        sh 'docker login -u $USERNAME -p $PASSWORD'
+                        sh 'docker.image("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}").push()'
                     }
                 }
             }
