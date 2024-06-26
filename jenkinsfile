@@ -27,18 +27,18 @@ pipeline {
                 }
             }
         }
-    }
+    
 
         stage("Test") {
             steps {
                 script {
                     docker.image(("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}")).inside("-u root"){
-                    sh "node -v"
+                        sh "node -v"
+                    }
                 }
             }
-        }
-    }
-
+        }   
+    
         post {
             always {
             // Limpiar las imágenes de Docker para liberar espacio
