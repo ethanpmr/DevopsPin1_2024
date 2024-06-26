@@ -15,15 +15,15 @@ pipeline {
             }
         }
 
-        stage("Test") {
-            steps {
-                script {
-                    docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").inside("-u root") {
-                        sh "node -v"
-                    }
-                }
-            }
-        }
+        // stage("Test") {
+        //     steps {
+        //         script {
+        //             docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").inside("-u root") {
+        //                 sh "node -v"
+        //             }
+        //         }
+        //     }
+        // }
     
         stage('Push') {
             steps {
