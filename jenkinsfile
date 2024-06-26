@@ -27,14 +27,13 @@ pipeline {
                 }
             }
         }
-    }
 
-    post {
-        always {
-            // Limpiar las imágenes de Docker para liberar espacio
-            script {
+        stage("Remove") {
+            steps {
+                script {
                 docker.image("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}").remove()
+                }
             }
         }
-    }
+    }    
 }
