@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKERHUB_CREDENTIALS = withCredential(credentialsId: 'DOCKER',
+        DOCKERHUB_CREDENTIALS = withCredentials(credentialsId: 'DOCKER',
               usernameVariable: 'username',
               passwordVariable: 'password') // ID de las credenciales almacenadas en Jenkins
         DOCKER_IMAGE_NAME = 'egalera/myapp'
