@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-        // ID de las credenciales almacenadas en Jenkins
         DOCKER_IMAGE_NAME = 'egalera/myapp'
         DOCKER_IMAGE_TAG = 'latest'
     }
@@ -11,12 +10,11 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    // Construir la imagen Docker
                     docker.build("${DOCKER_IMAGE_NAME}:${DOCKER_IMAGE_TAG}")
                 }
             }
         }
-        
+
         stage('Push') {
             steps {
                 script {
@@ -28,23 +26,23 @@ pipeline {
             }
         }
 
-        stage('Clean Up') {
-            steps {
-                sh "docker rmi ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}"
-            }
-        }
-    
         stage("Test") {
             steps {
                 script {
-	                withCredentials([usernamePassword(credentialsId: 'DOCKER', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
+                    withCredentials([usernamePassword(credentialsId: 'DOCKER', usernameVariable: 'USERNAME', passwordVariable: 'PASSWORD')]) {
                         sh 'docker login -u $USERNAME -p $PASSWORD'
                         docker.image("${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}").inside("-u root") {
-                        sh "node -v"
+                            sh "node -v"
                         }
                     }
                 }
             }
+        }
+    }
+
+    stage('Clean Up') {
+        steps {
+            sh "docker rmi ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}"
         }
     }
 }
